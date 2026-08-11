@@ -6,9 +6,13 @@ const pool = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    port: process.env.DB_PORT, // 👈 Adicionado para puxar a porta customizada da Aiven
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    ssl: {
+        rejectUnauthorized: false // 👈 Adicionado para aceitar o certificado SSL exigido pela Aiven
+    }
 });
 
 // Transforma o pool para aceitar async/await (Promises)
