@@ -40,23 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
             funcionarios.forEach(func => {
                 const tr = document.createElement('tr');
                 
+                // 1. Define o visual da coluna PERFIL (Aplica o selo de Admin Master para o ID #1 / Charles)
+                const isMaster = func.id === 1 || func.login === 'Charles';
+                const perfilHtml = isMaster 
+                    ? `<span style="background: #ffd70040; color: #b8860b; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">👑 Admin Master</span>`
+                    : func.perfil;
+
+                // 2. Define as AÇÕES (Apenas quando logado como Admin)
                 let acoesHtml = '';
                 if (isAdmin) {
                     if (func.login === usuarioLogado.login) {
                         acoesHtml = `<td style="color: gray; font-size: 12px; font-weight: bold;">Sua conta</td>`;
-                    } else if (func.id === 1) { 
-                        acoesHtml = `<td><span style="background: #ffd70040; color: #b8860b; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">👑 Admin Master</span></td>`;
+                    } else if (isMaster) { 
+                        acoesHtml = `<td>-</td>`; // Não permite excluir o Admin Master
                     } else {
                         acoesHtml = `<td><button class="btn-excluir" onclick="deletarFuncionario(${func.id}, '${func.login}')">Excluir</button></td>`;
                     }
                 }
 
-                // Tabela atualizada com a coluna do Nome Completo
+                // 3. Monta a linha com a coluna PERFIL atualizada
                 tr.innerHTML = `
                     <td><strong>#${func.id}</strong></td>
                     <td>${func.login}</td>
                     <td>${func.nome_completo || '-'}</td>
-                    <td>${func.perfil}</td>
+                    <td>${perfilHtml}</td>
                     ${isAdmin ? acoesHtml : ''}
                 `;
                 corpoTabela.appendChild(tr);
