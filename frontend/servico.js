@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const nomeEscrevente = usuarioLogado.nome_completo || usuarioLogado.login || '';
                     div.innerHTML = `
                         <label for="tag_${tag}">${labelFormatada}</label>
-                        <input type="text" id="tag_${tag}" name="${tag}" value="${nomeEscrevente}" required>
+                        <input type="text" id="tag_${tag}" name="${tag}" value="${nomeEscrevente}" readonly style="background-color: #e9ecef; cursor: not-allowed; color: #555;">
                     `;
                     formVariaveis.appendChild(div);
 
